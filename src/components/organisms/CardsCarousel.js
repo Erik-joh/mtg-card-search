@@ -10,6 +10,7 @@ const CardsCarousel = ({ cards }) => {
         {cards.map((card) => {
           return (
             <Card
+              key={card.id}
               cardName={card.name}
               imageUrl={card.image_uris ? card.image_uris.normal : ""}
             />

@@ -1,13 +1,17 @@
 const baseUrl = "https://api.scryfall.com";
 //returns a random card Image
-export function getRandomCardImage() {
-  fetch(`${baseUrl}/cards/random`)
+export function getRandomCardImageUrl() {
+  const imageUrl = fetch(`${baseUrl}/cards/random`)
     .then((response) => {
-      console.log(response.json().image_uris.art_crop);
+      return handleResponse(response);
+    })
+    .then((json) => {
+      return json.image_uris.art_crop;
     })
     .catch((error) => {
       throw error;
     });
+  return imageUrl;
 }
 export function getCardsByQuery({ cmc = -1, power = -1 }) {
   const queryUrlPart = `&q=${cmc >= 0 ? `cmc%3D${cmc}+` : ""}${
@@ -18,6 +22,9 @@ export function getCardsByQuery({ cmc = -1, power = -1 }) {
     .then((response) => {
       return handleResponse(response);
     })
+    .then((json) => {
+      return json.data;
+    })
     .catch((error) => {
       throw error;
     });
@@ -26,7 +33,8 @@ export function getCardsByQuery({ cmc = -1, power = -1 }) {
 async function handleResponse(response) {
   if (response.ok) {
     const json = await response.json();
-    return json.data;
+    console.log(json);
+    return json;
   }
   if (response.status === 400) {
     const error = await response.text();

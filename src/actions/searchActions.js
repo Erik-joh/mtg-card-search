@@ -19,6 +19,9 @@ export function generateCard(card) {
 export function clearState() {
   return { type: actionTypes.CLEAR_SEARCH_STATE };
 }
+export function searchRandomImageSuccess(imageUrl) {
+  return { type: actionTypes.SEARCH_RANDOM_CARD_IMAGE, imageUrl };
+}
 
 export function searchCards(query) {
   return function (dispatch) {
@@ -39,6 +42,16 @@ export function searchCards(query) {
       .catch(() => {
         dispatch(searchCardsFailed("Failed to get cards"));
         dispatch(searchCardsLoading(false));
+      });
+  };
+}
+export function searchRandomImage() {
+  return function (dispatch) {
+    scryfallApi
+      .getRandomCardImageUrl()
+      .then((imageUrl) => dispatch(searchRandomImageSuccess(imageUrl)))
+      .catch((error) => {
+        console.log(error);
       });
   };
 }

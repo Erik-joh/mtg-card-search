@@ -40,7 +40,20 @@ export const InputFieldContainer = styled.div`
 export const RandomCardImageContainer = styled.div`
   width: 100%;
   display: flex;
+  justify-content: space-between;
   & div {
-    width: 50%;
+    width: 48%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    & button {
+      width: 150px;
+      height: 40px;
+      padding: 10px;
+    }
+  }
+  & img {
+    width: 100%;
   }
 `;

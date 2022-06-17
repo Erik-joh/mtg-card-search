@@ -43,6 +43,11 @@ export const GCardImage = styled.div`
   border-radius: 4px;
   margin-top: 2px;
   margin-bottom: 2px;
+  overflow: hidden;
+  & img {
+    object-fit: contain;
+    width: 100%;
+  }
 `;
 export const GCardDescription = styled.div`
   height: 120px;

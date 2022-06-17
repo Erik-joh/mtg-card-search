@@ -24,6 +24,10 @@ const SearchPage = (props) => {
     event.preventDefault();
     dispatch(searchActions.clearState());
   }
+  function onRandomImageClick(event) {
+    event.preventDefault();
+    dispatch(searchActions.searchRandomImage());
+  }
   return (
     <PageContainer>
       <CardFormContainer>
@@ -33,6 +37,7 @@ const SearchPage = (props) => {
           formFieldValues={generatedCard}
         >
           <RandomCardImage
+            onClick={onRandomImageClick}
             imageUrl={generatedCard.imageUrl}
             altText={generatedCard.cardName}
           />
