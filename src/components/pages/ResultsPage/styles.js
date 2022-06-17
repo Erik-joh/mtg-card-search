@@ -3,7 +3,8 @@ import styled from "styled-components";
 export const ResultContainer = styled.div`
   display: flex;
   justify-content: space-around;
-  align-items: flex-start;
+  align-items: center;
+  flex-wrap: wrap;
   max-width: 1000px;
   width: 100%;
   max-height: 80%;
@@ -11,6 +12,7 @@ export const ResultContainer = styled.div`
   background-color: #534359;
   overflow: hidden;
   position: relative;
+  padding: 50px;
 `;
 export const GeneratedCardContainer = styled.div`
   display: flex;
@@ -99,5 +101,26 @@ export const CardContainer = styled.div`
   & img {
     width: 100%;
     object-fit: cover;
+  }
+`;
+export const ColorPercentContainer = styled.div`
+  width: 80%;
+  padding: 30px 0px;
+  display: flex;
+  justify-content: center;
+  background-color: #342a38;
+`;
+export const ColorPercentItemContainer = styled.div`
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  margin: 0px 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: ${(props) => `${props.backgroundColor}`};
+  & p {
+    color: ${(props) => `${props.textColor}`};
+    font-size: 20px;
   }
 `;
