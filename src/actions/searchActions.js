@@ -2,22 +2,18 @@ import * as scryfallApi from "../api/scryfall";
 import * as actionTypes from "./actionTypes";
 
 export function searchCardsSuccess(cards) {
-  console.log(cards);
   return { type: actionTypes.SEARCH_CARDS_SUCCESS, cards };
 }
 
 export function searchCardsFailed(errorMsg) {
-  console.log(errorMsg);
   return { type: actionTypes.SEARCH_CARDS_FAILED, errorMsg };
 }
 
 export function searchCardsLoading(loading) {
-  console.log(loading);
   return { type: actionTypes.SEARCH_CARDS_LOADING, loading };
 }
 
 export function generateCard(card) {
-  console.log("generatedCardAction", card);
   return { type: actionTypes.GENERATE_CARD, generatedCard: card };
 }
 export function clearState() {
@@ -25,9 +21,7 @@ export function clearState() {
 }
 
 export function searchCards(query) {
-  console.log("seachCardsAction:", query);
   return function (dispatch) {
-    console.log("seachCardsAction step 3");
     dispatch(generateCard(query));
 
     dispatch(searchCardsLoading(true));
@@ -40,14 +34,11 @@ export function searchCards(query) {
         } else {
           dispatch(searchCardsSuccess(cards));
         }
-        console.log("searchCards Actiona", cards);
         dispatch(searchCardsLoading(false));
       })
-      .catch((error) => {
-        console.log(error);
+      .catch(() => {
         dispatch(searchCardsFailed("Failed to get cards"));
+        dispatch(searchCardsLoading(false));
       });
-
-    console.log("searchCards", query);
   };
 }

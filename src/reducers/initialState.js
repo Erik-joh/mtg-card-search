@@ -6,6 +6,7 @@ export default {
     description: "",
     power: "",
     toughness: "",
+    imageUrl: "",
   },
   cards: [],
   loading: false,

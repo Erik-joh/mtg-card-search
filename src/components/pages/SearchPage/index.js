@@ -1,10 +1,10 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import CardForm from "../../organisms/CardForm";
-import { getRandomCardImage, getCardsByQuery } from "../../../api/scryfall";
 import * as searchActions from "../../../actions/searchActions";
 import { useNavigate } from "react-router-dom";
-import { SearchContainer, CardFormContainer } from "./styles";
+import { PageContainer, CardFormContainer } from "./styles";
+import RandomCardImage from "../../molecules/RandomCardImage";
 
 const SearchPage = (props) => {
   /* getRandomCardImage(); */
@@ -25,15 +25,20 @@ const SearchPage = (props) => {
     dispatch(searchActions.clearState());
   }
   return (
-    <SearchContainer>
+    <PageContainer>
       <CardFormContainer>
         <CardForm
           onSubmit={onSubmit}
           onClear={onClear}
           formFieldValues={generatedCard}
-        />
+        >
+          <RandomCardImage
+            imageUrl={generatedCard.imageUrl}
+            altText={generatedCard.cardName}
+          />
+        </CardForm>
       </CardFormContainer>
-    </SearchContainer>
+    </PageContainer>
   );
 };
 export default SearchPage;

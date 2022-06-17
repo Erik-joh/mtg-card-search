@@ -1,7 +1,6 @@
 import styled from "styled-components";
-import CardForm from "../../organisms/CardForm";
 
-export const SearchContainer = styled.div`
+export const PageContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -36,5 +35,12 @@ export const InputFieldContainer = styled.div`
     width: 100%;
     border: none;
     height: 35px;
+  }
+`;
+export const RandomCardImageContainer = styled.div`
+  width: 100%;
+  display: flex;
+  & div {
+    width: 50%;
   }
 `;

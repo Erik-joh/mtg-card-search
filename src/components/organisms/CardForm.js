@@ -2,7 +2,7 @@ import React from "react";
 import { Formik, Form, Field } from "formik";
 import { InputFieldContainer } from "../pages/SearchPage/styles";
 
-const CardForm = ({ onSubmit, formFieldValues, onClear }) => {
+const CardForm = ({ onSubmit, formFieldValues, onClear, children }) => {
   console.log(formFieldValues);
   return (
     <Formik
@@ -31,6 +31,8 @@ const CardForm = ({ onSubmit, formFieldValues, onClear }) => {
               <label htmlFor="cmc">Cost</label>
               <Field type="text" name="cmc" />
             </InputFieldContainer>
+
+            {children}
 
             <InputFieldContainer width="100">
               <label htmlFor="description">Description</label>

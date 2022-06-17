@@ -16,8 +16,7 @@ export function getCardsByQuery({ cmc = -1, power = -1 }) {
   console.log(`${baseUrl}/cards/search?order=color${queryUrlPart}`);
   const cards = fetch(`${baseUrl}/cards/search?order=color${queryUrlPart}`)
     .then((response) => {
-      console.log("response", response);
-      handleResponse(response);
+      return handleResponse(response);
     })
     .catch((error) => {
       throw error;
@@ -25,7 +24,10 @@ export function getCardsByQuery({ cmc = -1, power = -1 }) {
   return cards;
 }
 async function handleResponse(response) {
-  if (response.ok) return response.json();
+  if (response.ok) {
+    const json = await response.json();
+    return json.data;
+  }
   if (response.status === 400) {
     const error = await response.text();
     throw new Error(error);
