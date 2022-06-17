@@ -2,10 +2,10 @@ export default {
   generatedCard: {
     cardName: "",
     cardType: "",
-    cmc: "",
+    cmc: -1,
     description: "",
-    power: "",
-    toughness: "",
+    power: -1,
+    toughness: -1,
     imageUrl: "",
   },
   cards: [],

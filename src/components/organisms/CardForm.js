@@ -10,7 +10,7 @@ const CardForm = ({ onSubmit, formFieldValues, onClear, children }) => {
       onSubmit={onSubmit}
       enableReinitialize
     >
-      {(isSubmitting) => {
+      {(props) => {
         return (
           <Form>
             <InputFieldContainer width="100">
@@ -26,11 +26,12 @@ const CardForm = ({ onSubmit, formFieldValues, onClear, children }) => {
                 <option value="land">Land</option>
               </Field>
             </InputFieldContainer>
-
-            <InputFieldContainer width="48">
-              <label htmlFor="cmc">Cost</label>
-              <Field type="text" name="cmc" />
-            </InputFieldContainer>
+            {props.values.cardType !== "land" && (
+              <InputFieldContainer width="48">
+                <label htmlFor="cmc">Cost</label>
+                <Field type="number" name="cmc" />
+              </InputFieldContainer>
+            )}
 
             {children}
 
@@ -39,15 +40,21 @@ const CardForm = ({ onSubmit, formFieldValues, onClear, children }) => {
               <Field type="text" name="description" />
             </InputFieldContainer>
 
-            <InputFieldContainer width="48">
-              <label htmlFor="power">Power</label>
-              <Field type="text" name="power" />
-            </InputFieldContainer>
+            {(props.values.cardType === "creature" ||
+              props.values.cardType === "") && (
+              <>
+                <InputFieldContainer width="48">
+                  <label htmlFor="power">Power</label>
+                  <Field type="number" name="power" />
+                </InputFieldContainer>
 
-            <InputFieldContainer width="48">
-              <label htmlFor="toughness">Toughness</label>
-              <Field type="text" name="toughness" />
-            </InputFieldContainer>
+                <InputFieldContainer width="48">
+                  <label htmlFor="toughness">Toughness</label>
+                  <Field type="number" name="toughness" />
+                </InputFieldContainer>
+              </>
+            )}
+
             <button onClick={onClear}>Clear</button>
             <button type="submit" disabled={false}>
               Search

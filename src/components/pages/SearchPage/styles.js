@@ -36,6 +36,17 @@ export const InputFieldContainer = styled.div`
     border: none;
     height: 35px;
   }
+  & input[type="number"] {
+    width: 100%;
+    border: none;
+    height: 35px;
+    -moz-appearance: textfield;
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+  }
 `;
 export const RandomCardImageContainer = styled.div`
   width: 100%;
