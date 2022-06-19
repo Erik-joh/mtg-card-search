@@ -1,5 +1,5 @@
 import * as actionTypes from "../actions/actionTypes";
-import initialState from "./initialState";
+import * as initialState from "./initialState";
 export default function searchReducer(state = initialState, action) {
   switch (action.type) {
     case actionTypes.GENERATE_CARD:
@@ -11,12 +11,24 @@ export default function searchReducer(state = initialState, action) {
     case actionTypes.SEARCH_CARDS_FAILED:
       return { ...state, errorMsg: action.errorMsg };
     case actionTypes.CLEAR_SEARCH_STATE:
-      return initialState;
+      return initialState.initialState;
     case actionTypes.SEARCH_RANDOM_CARD_IMAGE:
-      console.log("Random image", action.imageUrl);
       return {
         ...state,
-        generatedCard: { ...state.generatedCard, imageUrl: action.imageUrl },
+        randomImage: { randomImageUrl: action.imageUrl, errorMsg: "" },
+      };
+    case actionTypes.CLEAR_ERROR_MESSAGE:
+      return {
+        ...state,
+        errorMsg: "",
+      };
+    case actionTypes.SEARCH_RANDOM_CARD_IMAGE_FAILED:
+      return {
+        ...state,
+        randomImage: {
+          randomImageUrl: "",
+          errorMsg: "Couldn't find a Image try again",
+        },
       };
     default:
       return state;

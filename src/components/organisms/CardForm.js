@@ -1,14 +1,26 @@
 import React from "react";
 import { Formik, Form, Field } from "formik";
-import { InputFieldContainer } from "../pages/SearchPage/styles";
+import {
+  InputFieldContainer,
+  Button,
+  FormErrorMessage,
+} from "../pages/SearchPage/styles";
 
-const CardForm = ({ onSubmit, formFieldValues, onClear, children }) => {
-  console.log(formFieldValues);
+const CardForm = ({
+  onSubmit,
+  formFieldValues,
+  onClear,
+  children,
+  validateFields,
+  isSubmittable,
+}) => {
   return (
     <Formik
       initialValues={formFieldValues}
       onSubmit={onSubmit}
       enableReinitialize
+      isSubmittableTest={isSubmittable}
+      validate={validateFields}
     >
       {(props) => {
         return (
@@ -19,17 +31,27 @@ const CardForm = ({ onSubmit, formFieldValues, onClear, children }) => {
             </InputFieldContainer>
             <InputFieldContainer width="48">
               <label htmlFor="cardName">Type</label>
-              <Field as="select" name="cardType">
+              <Field
+                validate={props.validateField(props.values)}
+                as="select"
+                name="cardType"
+              >
                 <option value=""></option>
                 <option value="creature">Creature</option>
-                <option value="sei">Sorc, Inst, Ench</option>
+                <option value="sorcery">Sorcery</option>
+                <option value="instant">Instant</option>
+                <option value="enchantment">Enchantment</option>
                 <option value="land">Land</option>
               </Field>
             </InputFieldContainer>
             {props.values.cardType !== "land" && (
               <InputFieldContainer width="48">
                 <label htmlFor="cmc">Cost</label>
-                <Field type="number" name="cmc" />
+                <Field
+                  validate={props.validateField(props.values)}
+                  type="number"
+                  name="cmc"
+                />
               </InputFieldContainer>
             )}
 
@@ -37,7 +59,11 @@ const CardForm = ({ onSubmit, formFieldValues, onClear, children }) => {
 
             <InputFieldContainer width="100">
               <label htmlFor="description">Description</label>
-              <Field type="text" name="description" />
+              <Field
+                validate={props.validateField(props.values)}
+                type="text"
+                name="description"
+              />
             </InputFieldContainer>
 
             {(props.values.cardType === "creature" ||
@@ -45,20 +71,26 @@ const CardForm = ({ onSubmit, formFieldValues, onClear, children }) => {
               <>
                 <InputFieldContainer width="48">
                   <label htmlFor="power">Power</label>
-                  <Field type="number" name="power" />
+                  <Field
+                    validate={props.validateField(props.values)}
+                    type="number"
+                    name="power"
+                  />
                 </InputFieldContainer>
 
                 <InputFieldContainer width="48">
                   <label htmlFor="toughness">Toughness</label>
-                  <Field type="number" name="toughness" />
+                  <Field
+                    validate={props.validateField(props.values)}
+                    type="number"
+                    name="toughness"
+                  />
                 </InputFieldContainer>
               </>
             )}
-
-            <button onClick={onClear}>Clear</button>
-            <button type="submit" disabled={false}>
-              Search
-            </button>
+            <FormErrorMessage>{props.errors.submit}</FormErrorMessage>
+            <Button onClick={onClear}>Clear</Button>
+            <Button type="submit">Search</Button>
           </Form>
         );
       }}

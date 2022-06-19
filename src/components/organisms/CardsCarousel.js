@@ -1,7 +1,9 @@
 import React from "react";
 import Card from "../molecules/Card";
-import Button from "../atoms/Button";
-import { CardsCarouselContainer } from "../pages/ResultsPage/styles";
+import {
+  CardsCarouselContainer,
+  IncDecContainer,
+} from "../pages/ResultsPage/styles";
 
 const CardsCarousel = ({
   card,
@@ -20,11 +22,13 @@ const CardsCarousel = ({
             imageUrl={card.image_uris ? card.image_uris.normal : ""}
           />
         </div>
-        <Button onClick={onDecrement} buttonText="<" />
-        <p>
-          {cardNumber}/{totalNumberOfCards}
-        </p>
-        <Button onClick={onIncrement} buttonText=">" />
+        <IncDecContainer>
+          <button onClick={onDecrement} />
+          <p>
+            {cardNumber}/{totalNumberOfCards}
+          </p>
+          <button onClick={onIncrement} />
+        </IncDecContainer>
       </CardsCarouselContainer>
     );
   }

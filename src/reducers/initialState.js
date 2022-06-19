@@ -1,13 +1,13 @@
-export default {
+export const initialState = {
   generatedCard: {
     cardName: "",
     cardType: "",
-    cmc: -1,
+    cmc: "",
     description: "",
-    power: -1,
-    toughness: -1,
-    imageUrl: "",
+    power: "",
+    toughness: "",
   },
+  randomImage: { errorMsg: "", randomImageUrl: "" },
   cards: [],
   loading: false,
   errorMsg: "",

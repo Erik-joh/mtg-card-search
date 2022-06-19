@@ -6,28 +6,40 @@ import { useNavigate } from "react-router-dom";
 import { PageContainer, CardFormContainer } from "./styles";
 import RandomCardImage from "../../molecules/RandomCardImage";
 
-const SearchPage = (props) => {
+const SearchPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const generatedCard = useSelector(
     (state) => state.searchReducer.generatedCard
   );
-  console.log(generatedCard);
+  const randomImage = useSelector((state) => state.searchReducer.randomImage);
+
   function onSubmit(values) {
     let checkedValues = {};
     switch (values.cardType) {
       case "land":
-        checkedValues = { ...values, power: -1, toughness: -1, cmc: -1 };
+        checkedValues = { ...values, power: "", toughness: "", cmc: "" };
         break;
-      case "sei":
-        checkedValues = { ...values, power: -1, toughness: -1 };
+      case "sorcery":
+      case "instant":
+      case "enchantment":
+        checkedValues = {
+          ...values,
+          power: "",
+          toughness: "",
+          cmc: values.cmc.toString(),
+        };
         break;
       default:
-        checkedValues = values;
+        checkedValues = {
+          ...values,
+          power: values.power.toString(),
+          toughness: values.toughness.toString(),
+          cmc: values.cmc.toString(),
+        };
         break;
     }
     dispatch(searchActions.searchCards(checkedValues));
-    console.log("onSubmit Values:", checkedValues);
     navigate("/result");
   }
   function onClear(event) {
@@ -36,7 +48,22 @@ const SearchPage = (props) => {
   }
   function onRandomImageClick(event) {
     event.preventDefault();
+    console.log(randomImage.randomImageUrl);
     dispatch(searchActions.searchRandomImage());
+  }
+  function validateFields(values) {
+    const errors = {};
+    const hasNoFieldValues =
+      values.power === "" &&
+      values.toughness === "" &&
+      values.cmc === "" &&
+      values.description === "" &&
+      values.cardType === "";
+    if (hasNoFieldValues) {
+      errors.submit =
+        "You need at least of one field: Type, Cost, Description, Power or Toughness";
+    }
+    return errors;
   }
   return (
     <PageContainer>
@@ -45,11 +72,12 @@ const SearchPage = (props) => {
           onSubmit={onSubmit}
           onClear={onClear}
           formFieldValues={generatedCard}
+          validateFields={validateFields}
         >
           <RandomCardImage
             onClick={onRandomImageClick}
-            imageUrl={generatedCard.imageUrl}
-            altText={generatedCard.cardName}
+            imageUrl={randomImage.randomImageUrl}
+            errorMsg={randomImage.errorMsg}
           />
         </CardForm>
       </CardFormContainer>

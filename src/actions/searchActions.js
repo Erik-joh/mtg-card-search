@@ -16,11 +16,17 @@ export function searchCardsLoading(loading) {
 export function generateCard(card) {
   return { type: actionTypes.GENERATE_CARD, generatedCard: card };
 }
+export function clearErrorMessage() {
+  return { type: actionTypes.CLEAR_ERROR_MESSAGE };
+}
 export function clearState() {
   return { type: actionTypes.CLEAR_SEARCH_STATE };
 }
 export function searchRandomImageSuccess(imageUrl) {
   return { type: actionTypes.SEARCH_RANDOM_CARD_IMAGE, imageUrl };
+}
+export function searchRandomImageFaileed() {
+  return { type: actionTypes.SEARCH_RANDOM_CARD_IMAGE_FAILED };
 }
 
 export function searchCards(query) {
@@ -40,7 +46,7 @@ export function searchCards(query) {
         dispatch(searchCardsLoading(false));
       })
       .catch(() => {
-        dispatch(searchCardsFailed("Failed to get cards"));
+        dispatch(searchCardsFailed("No cards found!"));
         dispatch(searchCardsLoading(false));
       });
   };
@@ -51,7 +57,7 @@ export function searchRandomImage() {
       .getRandomCardImageUrl()
       .then((imageUrl) => dispatch(searchRandomImageSuccess(imageUrl)))
       .catch((error) => {
-        console.log(error);
+        dispatch(searchRandomImageFaileed());
       });
   };
 }

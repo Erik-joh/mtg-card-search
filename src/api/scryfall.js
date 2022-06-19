@@ -13,12 +13,24 @@ export function getRandomCardImageUrl() {
     });
   return imageUrl;
 }
-export function getCardsByQuery({ cmc = -1, power = -1 }) {
-  const queryUrlPart = `&q=${cmc >= 0 ? `cmc%3D${cmc}+` : ""}${
-    power >= 0 ? `pow%3D${power}` : ""
-  }`;
-  console.log(`${baseUrl}/cards/search?order=color${queryUrlPart}`);
-  const cards = fetch(`${baseUrl}/cards/search?order=color${queryUrlPart}`)
+export function getCardsByQuery({
+  cardType,
+  cmc,
+  description,
+  power,
+  toughness,
+}) {
+  const fieldsArray = [];
+  if (cardType !== "") fieldsArray.push(`t%3A${cardType}`);
+  if (cmc !== "") fieldsArray.push(`cmc%3D${cmc}`);
+  if (description !== "")
+    fieldsArray.push(`o%3A${description.replace(" ", "%20")}`);
+  if (power !== "") fieldsArray.push(`pow%3D${power}`);
+  if (toughness !== "") fieldsArray.push(`tou%3D${toughness}`);
+
+  const queryUrlPart = fieldsArray.join("+");
+
+  const cards = fetch(`${baseUrl}/cards/search?q=${queryUrlPart}`)
     .then((response) => {
       return handleResponse(response);
     })
@@ -33,7 +45,6 @@ export function getCardsByQuery({ cmc = -1, power = -1 }) {
 async function handleResponse(response) {
   if (response.ok) {
     const json = await response.json();
-    console.log(json);
     return json;
   }
   if (response.status === 400) {

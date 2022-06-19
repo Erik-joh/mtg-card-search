@@ -5,20 +5,29 @@ import {
   GCardImage,
   GCardDescription,
   GCardPT,
+  NoImage,
 } from "../pages/ResultsPage/styles";
+import noImage from "../../icons/no-image.png";
 
-const GeneratedCard = ({ generatedCard }) => {
-  const { cardName, cardType, cmc, description, power, toughness, imageUrl } =
+const GeneratedCard = ({ generatedCard, imageUrl }) => {
+  const { cardName, cardType, cmc, description, power, toughness } =
     generatedCard;
+  const image = imageUrl !== "" ? imageUrl : noImage;
   return (
     <GeneratedCardContainer>
       <GCardHeader>
         <p>{cardName}</p>
         <p>{cmc}</p>
       </GCardHeader>
-      <GCardImage>
-        <img src={imageUrl} alt={cardName} />
-      </GCardImage>
+      {imageUrl !== "" ? (
+        <GCardImage>
+          <img src={image} alt={cardName} />
+        </GCardImage>
+      ) : (
+        <NoImage>
+          <img src={noImage} alt="Default" />
+        </NoImage>
+      )}
       <GCardHeader>
         <p>{cardType}</p>
       </GCardHeader>

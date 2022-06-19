@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { EditSearch, ResultContainer } from "./styles";
 import Loading from "../../organisms/Loading";
@@ -8,15 +8,16 @@ import GeneratedCard from "../../molecules/GeneratedCard";
 import CardsCarousel from "../../organisms/CardsCarousel";
 import { PageContainer } from "../SearchPage/styles";
 import ColorPercent from "../../organisms/ColorPercent";
+import * as searchActions from "../../../actions/searchActions";
 
-const ResultsPage = (props) => {
-  const { generatedCard, cards, errorMsg, loading } = useSelector(
+const ResultsPage = () => {
+  const { generatedCard, cards, errorMsg, loading, randomImage } = useSelector(
     (state) => state.searchReducer
   );
   const [currentCarouselIndex, setCurrentCarouselIndex] = useState(0);
   const [colorPercentItems, setColorPercentItems] = useState([]);
+  const dispatch = useDispatch();
   useEffect(() => {
-    console.log("useEffect for calculation colors percent");
     setColorPercentItems(CalculateColorPrecent(cards));
   }, [cards]);
 
@@ -30,19 +31,36 @@ const ResultsPage = (props) => {
       0 === currentCarouselIndex ? cards.length - 1 : currentCarouselIndex - 1
     );
   }
+  function onLinkClick() {
+    dispatch(searchActions.clearErrorMessage());
+  }
 
   if (loading) {
-    return <Loading loadingText="Loading..." />;
+    return (
+      <PageContainer>
+        <Loading />
+      </PageContainer>
+    );
   }
   if (errorMsg !== "") {
     return (
-      <FailedToLoad errorMsg={errorMsg} linkUrl="/" linkText="Edit Search" />
+      <PageContainer>
+        <FailedToLoad
+          onLinkClick={onLinkClick}
+          errorMsg={errorMsg}
+          linkUrl="/"
+          linkText="Edit Search"
+        />
+      </PageContainer>
     );
   }
   return (
     <PageContainer>
       <ResultContainer>
-        <GeneratedCard generatedCard={generatedCard} />
+        <GeneratedCard
+          generatedCard={generatedCard}
+          imageUrl={randomImage.randomImageUrl}
+        />
         <CardsCarousel
           cardNumber={currentCarouselIndex + 1}
           onIncrement={onIncrement}
