@@ -48,7 +48,6 @@ const SearchPage = () => {
   }
   function onRandomImageClick(event) {
     event.preventDefault();
-    console.log(randomImage.randomImageUrl);
     dispatch(searchActions.searchRandomImage());
   }
   function validateFields(values) {
